@@ -182,9 +182,9 @@ export default {
   text-align: center;
   color: $theme-color;
   font-size: 28rpx;
+}
 
-  .price-del {
+.price-del {
     text-decoration: line-through !important;
   }
-}
 </style>
