@@ -88,7 +88,7 @@ export default {
     containerStyle() {
       let style = {}
 
-      style.color = this.deleted ? this.delColor : this.color
+      style.color = this.delColor ? this.delColor : this.color
 
       return style
     },
@@ -96,13 +96,7 @@ export default {
     unitStyle() {
       let style = {}
 
-      if (this.deleted) {
-        style.color = this.unitColor ? this.unitColor : this.delColor
-      } else {
-        style.color = this.unitColor ? this.unitColor : this.color
-      }
-
-      // style.color = this.unitColor ? this.unitColor : this.color
+      style.color = this.unitColor ? this.unitColor : this.color
       style['font-size'] = (this.unitSize ? this.unitSize : this.size) + 'rpx'
       style['font-weight'] = this.unitBold ? this.unitBold : this.bold
 
@@ -112,13 +106,7 @@ export default {
     valueStyle() {
       let style = {}
 
-      if (this.deleted) {
-        style.color = this.valueColor ? this.valueColor : this.delColor
-      } else {
-        style.color = this.valueColor ? this.valueColor : this.color
-      }
-
-      // style.color = this.valueColor ? this.valueColor : this.color
+      style.color = this.valueColor ? this.valueColor : this.color
       style['font-size'] = (this.valueSize ? this.valueSize : this.size) + 'rpx'
       style['font-weight'] = this.valueBold ? this.valueBold : this.bold
 
