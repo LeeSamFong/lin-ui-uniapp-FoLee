@@ -1,5 +1,5 @@
 <template>
-  <view class="price-container"
+  <view class="l-price-container"
         :class="containerClass"
         :style="containerStyle"
   >
@@ -165,7 +165,7 @@ export default {
 <style lang="scss" scoped>
 @import "../../styles/base.scss";
 
-.price-container {
+.l-price-container {
   display: inline-block;
   text-align: center;
   color: $theme-color;
