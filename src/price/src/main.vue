@@ -1,10 +1,10 @@
 <template>
   <view class="l-price" :class="deletedClass">
-    <view v-if="deleted" class="price-del-line" :style="deletedStyle"></view>
+    <view v-if="deleted && !onlyDelValue" class="price-del-line" :style="deletedStyle"></view>
     <!-- unit -->
-    <text class="l-unit-class" :style="unitStyle">{{unit}}</text>
+    <text v-if="showUnit" class="l-unit-class" :style="unitStyle">{{unit}}</text>
     <!-- count -->
-    <text class="l-value-class" :style="valueStyle"><text class="l-integer-class">{{priceInteger}}</text><text class="l-dot-class">{{priceDecimal ? '.' : ''}}</text><text class="l-decimal-class">{{priceDecimal ? priceDecimal : ''}}</text></text>
+    <text class="l-value-class" :class="valueClass" :style="valueStyle"><text class="l-integer-class">{{priceInteger}}</text><text class="l-dot-class">{{priceDecimal ? '.' : ''}}</text><text class="l-decimal-class">{{priceDecimal ? priceDecimal : ''}}</text></text>
   </view>
 </template>
 
@@ -15,6 +15,10 @@ export default {
     unit: {
       type: String,
       default: '￥'
+    },
+    showUnit: {
+      type: Boolean,
+      default: true,
     },
     size: {
       type: String,
@@ -51,7 +55,12 @@ export default {
       type: Number,
       default: 2
     },
-    autofix: Boolean
+    // 是否自动补.00
+    autofix: Boolean,
+    // 是否只有后面数字的部分有删除线（无法调整高度）
+    onlyDelValue: Boolean,
+    // 删除线的高度
+    delLineHeight: [Number, String],
   },
   data() {
     return {
@@ -71,6 +80,9 @@ export default {
       const style = {}
 
       style['background-color'] = this.delColor ? this.delColor : this.color
+      if (this.delLineHeight) {
+        style.height = this.delLineHeight + 'rpx'
+      }
 
       return style
     },
@@ -92,6 +104,11 @@ export default {
       style['font-weight'] = this.valueBold ? this.valueBold : this.bold
 
       return style
+    },
+    valueClass() {
+      return {
+        'l-value-del': this.onlyDelValue
+      }
     },
   },
   watch: {
@@ -145,6 +162,10 @@ export default {
   text-align: center;
   color: $theme-color;
   font-size: 28rpx;
+
+  .l-value-del {
+    text-decoration: line-through !important;
+  }
 }
 
 .price-del {
@@ -155,6 +176,7 @@ export default {
     background-color: $theme-color;
     width: 105%;
     height: 1rpx;
+    transform: translateY(-50%);
     top: 50%;
   }
 }
