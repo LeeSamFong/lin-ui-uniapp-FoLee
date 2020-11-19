@@ -1,22 +1,15 @@
 <template>
-  <view class="l-price-container"
-        :class="containerClass"
-        :style="containerStyle"
-  >
+  <view class="l-price" :class="deletedClass" :style="deletedStyle">
     <!-- unit -->
     <text class="l-unit-class" :style="unitStyle">{{unit}}</text>
     <!-- count -->
-    <text class="l-value-class" :style="valueStyle">{{priceInteger}}
-      <text class="l-dot-class">{{priceDecimal ? '.' : ''}}</text>
-      <text class="l-decimal-class">{{priceDecimal ? priceDecimal : ''}}</text>
-    </text>
+    <text class="l-value-class" :style="valueStyle"><text class="l-integer-class">{{priceInteger}}</text><text class="l-dot-class">{{priceDecimal ? '.' : ''}}</text><text class="l-decimal-class">{{priceDecimal ? priceDecimal : ''}}</text></text>
   </view>
 </template>
 
 <script>
 export default {
   name: "LPrice",
-
   props: {
     unit: {
       type: String,
@@ -28,7 +21,7 @@ export default {
     },
     color: {
       type: String,
-      default: '#333333'
+      default: '#3963BC'
     },
     bold: {
       type: String,
@@ -44,10 +37,9 @@ export default {
     mode: {
       type: String,
       default: 'number',
-      validator: function (value) {
-        // 这个值必须匹配下列字符串中的一个
+      validator(value) {
         return ['number', 'text'].indexOf(value) !== -1
-      },
+      }
     },
     valueColor: String,
     valueSize: String,
@@ -58,63 +50,49 @@ export default {
       type: Number,
       default: 2
     },
-    autofix: Boolean,
+    autofix: Boolean
   },
-
   data() {
     return {
       // 价格整数部分
-      priceInteger: {
-        type: String,
-        default: '0'
-      },
+      priceInteger: '0',
       // 价格小数部分
-      priceDecimal: {
-        type: String,
-        default: '00'
-      },
-
+      priceDecimal: '00',
     }
   },
-
   computed: {
-    containerClass() {
+    deletedClass() {
       return {
         'price-del': this.deleted,
-        'l-deleted-class': this.deleted,
       }
     },
-
-    containerStyle() {
-      let style = {}
+    deletedStyle() {
+      const style = {}
 
       style.color = this.delColor ? this.delColor : this.color
 
       return style
     },
-
     unitStyle() {
-      let style = {}
+      const style = {}
 
       style.color = this.unitColor ? this.unitColor : this.color
-      style['font-size'] = (this.unitSize ? this.unitSize : this.size) + 'rpx'
+      style['font-size'] = `${this.unitSize ? this.unitSize : this.size}rpx`
       style['font-weight'] = this.unitBold ? this.unitBold : this.bold
 
       return style
     },
 
     valueStyle() {
-      let style = {}
+      const style = {}
 
       style.color = this.valueColor ? this.valueColor : this.color
-      style['font-size'] = (this.valueSize ? this.valueSize : this.size) + 'rpx'
+      style['font-size'] = `${this.valueSize ? this.valueSize : this.size}rpx`
       style['font-weight'] = this.valueBold ? this.valueBold : this.bold
 
       return style
     },
-
   },
-
   watch: {
     value: {
       handler() {
@@ -122,50 +100,46 @@ export default {
       },
     }
   },
-
   mounted() {
     this.reserveNumber()
   },
-
   methods: {
     reserveNumber() {
       this.priceInteger = null
       this.priceDecimal = null
 
       const countToNumber = Number(this.value)
-      const isText = isNaN(Number(countToNumber)) || this.mode === 'text'
+      const isText = Number.isNaN(Number(countToNumber)) || (this.mode === 'text')
       if (!isText && this.autofix) {
         const result = countToNumber.toFixed(this.reserveDigit)
         const price = result.toString().split('.')
         this.setPrice(price)
       } else {
-        // const price = this.value.split('.')
         const price = this.value.toString().split('.')
         this.setPrice(price)
       }
-
     },
 
     setPrice(price) {
       if (price.length === 1) {
-        this.priceInteger = price[0]
+        const [priceInteger] = price
+        this.priceInteger = priceInteger
       } else if (price.length === 2) {
-        this.priceInteger = price[0]
-        this.priceDecimal = price[1]
+        const [priceInteger, priceDecimal] = price
+        this.priceInteger = priceInteger
+        this.priceDecimal = priceDecimal
       } else {
-        throw 'price 格式有误，请仔细检查！'
+        throw new Error('price 格式有误，请仔细检查！')
       }
     },
-
   },
-
 }
 </script>
 
 <style lang="scss" scoped>
 @import "../../styles/base.scss";
 
-.l-price-container {
+.l-price {
   display: inline-block;
   text-align: center;
   color: $theme-color;
@@ -173,6 +147,6 @@ export default {
 }
 
 .price-del {
-    text-decoration: line-through !important;
-  }
+  text-decoration: line-through !important;
+}
 </style>
