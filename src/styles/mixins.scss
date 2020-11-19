@@ -1,6 +1,6 @@
 @import "./base";
 
-.hairline() {
+@mixin hairline() {
     content: '';
     position: absolute;
     top: 0;
@@ -14,7 +14,7 @@
     border: 0 solid $border-color-split;
 }
 
-.active() {
+@mixin active() {
     opacity: 0.15;
     position: absolute;
     top: 50%;
