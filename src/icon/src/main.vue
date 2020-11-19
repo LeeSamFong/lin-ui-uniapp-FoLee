@@ -13,12 +13,13 @@ export default {
     color: String,
     size: [String, Number],
     lClass: String,
+    lFontClass: String,
   },
   computed: {
     iconName() {
       return {
-        [`l-icon-${this.name}`]: !this.lClass,
-        [`${this.name}`]: !!this.lClass,
+        [`l-icon-${this.name}`]: !this.lFontClass,
+        [`${this.name}`]: !!this.lFontClass,
       }
     },
     iconStyle() {
