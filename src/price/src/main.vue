@@ -1,5 +1,6 @@
 <template>
-  <view class="l-price" :class="deletedClass" :style="deletedStyle">
+  <view class="l-price" :class="deletedClass">
+    <view v-if="deleted" class="price-del-line" :style="deletedStyle"></view>
     <!-- unit -->
     <text class="l-unit-class" :style="unitStyle">{{unit}}</text>
     <!-- count -->
@@ -21,7 +22,7 @@ export default {
     },
     color: {
       type: String,
-      default: '#3963BC'
+      default: ''
     },
     bold: {
       type: String,
@@ -69,7 +70,7 @@ export default {
     deletedStyle() {
       const style = {}
 
-      style.color = this.delColor ? this.delColor : this.color
+      style['background-color'] = this.delColor ? this.delColor : this.color
 
       return style
     },
@@ -147,6 +148,14 @@ export default {
 }
 
 .price-del {
-  text-decoration: line-through !important;
+  position: relative;
+
+  &-line {
+    position: absolute;
+    background-color: $theme-color;
+    width: 105%;
+    height: 1rpx;
+    top: 50%;
+  }
 }
 </style>
