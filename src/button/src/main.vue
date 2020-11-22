@@ -43,8 +43,7 @@
             @contact="openTypeEvent"
             @getuserinfo="openTypeEvent"
             @getphonenumber="openTypeEvent"
-            @opensetting="openTypeEvent"
-            @error="handleOpenTypeError">
+            @opensetting="openTypeEvent">
     ></button>
   </view>
 </template>
